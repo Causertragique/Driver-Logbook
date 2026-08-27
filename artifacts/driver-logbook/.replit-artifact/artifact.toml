@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Driver Logbook"
+description = "A mobile-first logbook for Uber and Lyft drivers to record kilometers, fuel purchases, odometer readings, and receipt photos for expense tracking."
+version = "1.0.0"
+id = "artifacts/driver-logbook"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20926
+
+[services.development]
+run = "pnpm --filter @workspace/driver-logbook run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/driver-logbook", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/driver-logbook/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20926"
+BASE_PATH = "/"
